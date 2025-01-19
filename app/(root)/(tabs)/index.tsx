@@ -42,7 +42,7 @@ export default function Index() {
       <FlatList 
         data={properties}
         renderItem={({ item, index }) => <Card item={item} onPress={() => handleCardPress(item.$id)}/>}
-        keyExtractor={(item) => item.toString()}
+        keyExtractor={(item) => item.$id}
         numColumns={2}
         contentContainerClassName="pb-32"
         columnWrapperClassName="flex gap-5 px-5"
@@ -92,7 +92,7 @@ export default function Index() {
               :
               <FlatList 
               data={latestProperties}
-              keyExtractor={(item) => item.toString()}
+              keyExtractor={(item) => item.$id}
               renderItem={({ item }) => <FeaturedCard item={item} onPress={() => handleCardPress(item.$id)}/>}
               horizontal
               showsHorizontalScrollIndicator={false}
