@@ -1,18 +1,82 @@
+import { Card, FeaturedCard } from "@/components/Cards";
+import Filters from "@/components/Filters";
+import Search from "@/components/Search";
+import icons from "@/constants/icons";
+import images from "@/constants/images";
+import { useGlobalContext } from "@/lib/global-provider";
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { FlatList, Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
+  const { user } = useGlobalContext()
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text className="text-2xl font-rubik-extrabold">helo</Text>
+    <SafeAreaView className="bg-white h-full">
+      <FlatList 
+        data={[1,2,3,4]}
+        renderItem={({ item, index }) => <Card/>}
+        keyExtractor={(item) => item.toString()}
+        numColumns={2}
+        contentContainerClassName="pb-32"
+        columnWrapperClassName="flex gap-5 px-5"
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View className="px-5 bg-white" >
+          {/* MAIN HEADER */}
+          <View className="flex flex-row items-center justify-between mt-5">
+            <View className="flex flex-row">
+              <Image source={{ uri: user?.avatar}} className="size-12 rounded-full"/>
+              <View className="flex flex-col items-start ml-2 justify-center">
+                <Text className="text-xs font-rubik text-black-100">Good Morning</Text>
+                <Text className="text-base font-rubik-medium text-black-300">{user?.name}</Text>
+              </View>
+            </View>
+            <Image source={icons.bell} className="size-6"/>
+          </View>
+          {/* SEARCH */}
+          <Search />
 
 
-    </View>
+          {/* FEATURED SECTION */}
+          <View className="my-5">
+            {/* FEATURED HEADER */}
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-xl font-rubik-bold text-black-300">Featured</Text>
+              <TouchableOpacity>
+                <Text className="text-base font-rubik-bold text-primary-300">See All</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* FEATURED CARDS */}
+            <FlatList 
+            data={[1,2,3,4]}
+            keyExtractor={(item) => item.toString()}
+            renderItem={() => <FeaturedCard />}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerClassName="flex flex-row gap-5"
+            />
+          </View>
+
+          {/* RECOMMENDATIONS SECTION */}
+          <View>
+            {/* RECOMMENDATIONS HEADER */}
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-xl font-rubik-bold text-black-300">Our Recommendations</Text>
+              <TouchableOpacity>
+                <Text className="text-base font-rubik-bold text-primary-300">See All</Text>
+              </TouchableOpacity>
+            </View>
+            {/* RECOMMENDATIONS FILTERS */}
+            <Filters />
+            {/* RECOMMENDATIONS CARDS */}
+            
+          </View>
+
+      </View>
+
+        }
+      />
+      
+    </SafeAreaView>
   );
 }
